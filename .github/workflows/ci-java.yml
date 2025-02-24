@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: ./.github/action/build
+        uses: ./.github/actions/build
         with:
           cache: false
 
