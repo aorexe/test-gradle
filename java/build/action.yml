@@ -30,7 +30,7 @@ runs:
       shell: bash
       run: |
         if [ "${{ inputs.set-build-system }}" != "" ]; then
-              echo "build-system=${{ inputs.set-build-system }}" >> $GITHUB_ENV
+          echo "build-system=${{ inputs.set-build-system }}" >> $GITHUB_ENV
         elif [ -f "gradlew" ]; then
           echo "build-system=gradle" >> $GITHUB_ENV
         elif [ -f "pom.xml" ]; then
