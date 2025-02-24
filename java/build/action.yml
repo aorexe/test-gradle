@@ -83,4 +83,6 @@ runs:
         retention-days: 1
         overwrite: true
 outputs:
-  artifact-name: "application-${{ steps.system.outputs.build-system }}-jar"
+  artifact-name:
+    description: "Dynamic artifact name based on build system"
+    value: "application-${{ steps.system.outputs.build-system }}-jar"
