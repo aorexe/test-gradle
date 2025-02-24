@@ -32,6 +32,7 @@ runs:
         MANUAL_BUILD_SYSTEM: ${{ inputs.set-build-system }}
       run: |
         if [[ -n "$MANUAL_BUILD_SYSTEM" ]]; then
+          echo "test"
           echo "build-system=$MANUAL_BUILD_SYSTEM" >> $GITHUB_OUTPUT
         elif [[ -f "gradlew" ]]; then
           echo "Detected Gradle build system."
@@ -41,6 +42,13 @@ runs:
           echo "build-system=maven" >> $GITHUB_OUTPUT
         else
           echo "No recognized build system found." && exit 1
+      shell: bash
+      continue-on-error: true
+    
+    - name: Debugging Step
+      run: |
+        ls -la
+        cat /home/runner/work/_temp/*.sh
       shell: bash
     
     - name: Set up JDK 17
