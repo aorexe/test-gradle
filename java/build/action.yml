@@ -29,12 +29,12 @@ runs:
     - name: Detect Build System
       shell: bash
       run: |
-        MANUAL_BUILD_SYSTEM="${{ inputs.set-build-system }}"
-        if [[ -n "$MANUAL_BUILD_SYSTEM" ]]; then
+        MANUAL_BUILD_SYSTEM=""
+        if [[ "${{ inputs.set-build-system }}" != "" ]] then
           echo "build-system=${{ inputs.set-build-system }}" >> $GITHUB_ENV
-        elif [[ -f "gradlew" ]]; then
+        elif [[ -f "gradlew" ]] then
           echo "build-system=gradle" >> $GITHUB_ENV
-        elif [[ -f "pom.xml" ]]; then
+        elif [[ -f "pom.xml" ]] then
           echo "build-system=maven" >> $GITHUB_ENV
         else
           echo "No recognized build system found." && exit 1

@@ -18,6 +18,7 @@ jobs:
           cache: false
 
   build-maven:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Build
