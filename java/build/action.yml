@@ -20,7 +20,7 @@ inputs:
   set-build-system:
     description: 'Override auto-detection of Build System'
     required: false
-run:
+runs:
   using: "composite"
   steps:
     - name: Checkout repository
