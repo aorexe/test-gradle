@@ -12,8 +12,8 @@ jobs:
   build-gradle:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: ./.github/actions/build
+      - name: Build
+        uses: aorexe/test-gradle/java/build@main
         with:
           cache: false
 

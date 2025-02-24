@@ -26,6 +26,7 @@ steps:
     uses: actions/checkout@v4
   
   - name: Detect Build System
+    shell: bash
     run: |
       if [ "${{ inputs.set-build-system }}" != "" ]; then
             echo "build-system=${{ inputs.set-build-system }}" >> $GITHUB_ENV
@@ -51,6 +52,7 @@ steps:
 
   - name: Build with Gradle
     if: env.build-system == 'gradle'
+    shell: bash
     run: |
       chmod +x gradlew
       ./gradlew build
@@ -58,6 +60,7 @@ steps:
   
   - name: Build with Maven
     if: env.build-system == 'maven'
+    shell: bash
     run: |
       mvn clean package
       echo "artifact-path=target/*.jar" >> $GITHUB_ENV
