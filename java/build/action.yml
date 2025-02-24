@@ -20,8 +20,6 @@ inputs:
   set-build-system:
     description: 'Override auto-detection of Build System'
     required: false
-outputs:
-  artifact-name: "application-${{ steps.system.outputs.build-system }}-jar"
 runs:
   using: "composite"
   steps:
@@ -84,3 +82,5 @@ runs:
         path: ${{ steps.maven.outputs.artifact-path || steps.gradle.outputs.artifact-path }}
         retention-days: 1
         overwrite: true
+outputs:
+  artifact-name: "application-${{ steps.system.outputs.build-system }}-jar"
