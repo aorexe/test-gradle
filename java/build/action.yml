@@ -20,6 +20,8 @@ inputs:
   set-build-system:
     description: 'Override auto-detection of Build System'
     required: false
+outputs:
+  artifact-name: "application-${{ steps.system.outputs.build-system }}-jar"
 runs:
   using: "composite"
   steps:
