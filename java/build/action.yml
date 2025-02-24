@@ -32,7 +32,6 @@ runs:
         MANUAL_BUILD_SYSTEM: ${{ inputs.set-build-system }}
       run: |
         if [[ -n "$MANUAL_BUILD_SYSTEM" ]]; then
-          echo "test"
           echo "build-system=$MANUAL_BUILD_SYSTEM" >> $GITHUB_OUTPUT
         elif [[ -f "gradlew" ]]; then
           echo "Detected Gradle build system."
@@ -50,7 +49,7 @@ runs:
       with:
         distribution: ${{ inputs.java-distribution }}
         java-version: ${{ inputs.java-version }}
-        cache: ${{ inputs.cache && steps.system.outputs.build-system || 'none' }}
+        cache: ${{ inputs.cache == 'true' && steps.system.outputs.build-system || 'none' }}
     
     - name: Setup Gradle
       if: steps.system.outputs.build-system == 'gradle'
@@ -76,7 +75,7 @@ runs:
       shell: bash
 
     - name: Upload Artifact
-      if: inputs.java-version
+      if: inputs.artifact == 'true'
       uses: actions/upload-artifact@v4
       with:
         name: application-gradle-jar
