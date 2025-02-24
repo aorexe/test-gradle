@@ -3,24 +3,23 @@ description: "A composite action to test and build a Golang project"
 inputs:
   java-version:
     description: 'Java version to use'
-    required: false
+    required: true
     default: '17'
   java-distribution:
     description:
-    required: false
+    required: true
     default: 'temurin'
   cache:
     description: 'Enable Build System cache'
-    required: false
+    required: true
     default: true
   artifact:
     description: 'Enable Upload artifact'
-    required: false
+    required: true
     default: true
   set-build-system:
     description: 'Mannually set Build System use'
     required: false
-    
 steps:
   - name: Checkout repository
     uses: actions/checkout@v4
