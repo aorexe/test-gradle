@@ -1,0 +1,72 @@
+name: "Golang Composite Action with Inputs"
+description: "A composite action to test and build a Golang project"
+inputs:
+  java-version:
+    description: 'Java version to use'
+    required: false
+    default: '17'
+  java-distribution:
+    description:
+    required: false
+    default: 'temurin'
+  cache:
+    description: 'Enable Build System cache'
+    required: false
+    default: true
+  artifact:
+    description: 'Enable Upload artifact'
+    required: false
+    default: true
+  set-build-system:
+    description: 'Mannually set Build System use'
+    required: false
+    
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
+  
+  - name: Detect Build System
+    run: |
+      if [ "${{ inputs.set-build-system }}" != "" ]; then
+            echo "build-system=${{ inputs.set-build-system }}" >> $GITHUB_ENV
+      elif [ -f "gradlew" ]; then
+        echo "build-system=gradle" >> $GITHUB_ENV
+      elif [ -f "pom.xml" ]; then
+        echo "build-system=maven" >> $GITHUB_ENV
+      else
+        echo "No recognized build system found." && exit 1
+  
+  - name: Set up JDK 17
+    uses: actions/setup-java@v4
+    with:
+      distribution: ${{ inputs.java-distribution }}
+      java-version: ${{ inputs.java-version }}
+      cache: ${{ inputs.cache && env.build-system || 'none' }}
+  
+  - name: Setup Gradle
+    if: env.build-system == 'gradle'
+    uses: gradle/actions/setup-gradle@v4
+    with:
+      cache-disabled: true
+
+  - name: Build with Gradle
+    if: env.build-system == 'gradle'
+    run: |
+      chmod +x gradlew
+      ./gradlew build
+      echo "artifact-path=build/libs/*.jar" >> $GITHUB_ENV
+  
+  - name: Build with Maven
+    if: env.build-system == 'maven'
+    run: |
+      mvn clean package
+      echo "artifact-path=target/*.jar" >> $GITHUB_ENV
+
+  - name: Upload Artifact
+    if: inputs.java-version
+    uses: actions/upload-artifact@v4
+    with:
+      name: application-gradle-jar
+      path: ${{ env.artifact-path }}
+      retention-days: 1
+      overwrite: true
